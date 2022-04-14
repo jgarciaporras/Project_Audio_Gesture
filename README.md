@@ -1,3 +1,3 @@
 # Project_Audio_Gesture
 
-Full Data Stack Project 
+Full Stack Data Project 
