@@ -10,7 +10,11 @@
     <body>
         <header class="uppercase">Audio Gesture Control</header>
         <section id="content-section">
-            <h2>Select a file to upload</h2>
+            <div>
+                <h2>Live Streaming</h2>
+                <img src="{{ url_for('video_feed') }}" width="100%"> 
+                <h2>Select a file to upload</h2>
+            </div>
             <p>
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
