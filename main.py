@@ -61,13 +61,6 @@ def display_audio(filename):
     #print('display_image filename: ' + filename)
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
-
-@app.route('/', methods=['POST'])
-def control_audio():
-    volume_20= tasks.volume_20()
-    return render_template('index.html', volume_20)
- 
-
 if __name__ == "__main__":
     app.run()
 #
