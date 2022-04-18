@@ -1,0 +1,78 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> GBC Full Stack Project </title>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    </head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/main.css') }}">
+    <body>
+        <header class="uppercase">Audio Gesture Control</header>
+        <section id="content-section">
+            <div>
+                <h2>Live Streaming</h2>
+                <img src="{{ url_for('video_feed') }}" width="100%"> 
+                <h2>Select a file to upload</h2>
+            </div>
+            <p>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                            <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </p>
+
+                {% if filename %}
+                    <div>
+                        <audio id="audio">
+                            
+                            <source src="{{ url_for('display_audio', filename=filename) }}" type="audio/mpeg">
+                        </audio>
+
+                        <button id="playPauseBTN" onclick="playPause()">Play &#9658;</button>
+                        &nbsp;
+                        &nbsp;
+                        <button onclick="Stop()">Stop &#9611;</button>
+                        &nbsp;
+                        <button onclick="Volume_20()">20</a></button>
+                        &nbsp;
+                        <button onclick="Volume_40()">40</a></button>
+                        &nbsp;
+                        <button onclick="Volume_60()">60</a></button>
+                        &nbsp;
+                        <button onclick="Volume_80()">80</a></button>
+                        &nbsp;
+                        <button onclick="Volume_Max()">Volume Max</a></button>
+                        &nbsp;
+                        <button onclick="Mute()">Mute</a></button>
+
+                        <script src="/static/js/custom.js"></script>
+                    </div>
+                {% endif %}
+
+            <form method="post" action="/" enctype="multipart/form-data">  
+                <dl>
+                    <p>
+                        <input type="file" name="file" class="form-control" autocomplete="off" required>
+                    </p>
+                </dl>
+                <p>
+                    <input type="submit" value="Submit" class="btn btn-info">
+                </p>
+     
+            </form>
+            
+        </section>
+        
+
+
+    </body>
+
+
+
+</html>
