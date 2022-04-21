@@ -180,7 +180,7 @@ def allowed_file(filename):
 def index():
     """Video streaming home page."""
     return render_template('index.html')
-
+"""
 @app.route('/', methods=['POST'])
 def upload_image():
     if 'file' not in request.files:
@@ -199,7 +199,7 @@ def upload_image():
     else:
         # flash('Allowed image types are - mp3/wav')
         return redirect(request.url)
-
+"""
 
 def gen(camera):
     """Video streaming generator function."""
@@ -253,10 +253,10 @@ def video_feed():
     return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/display/<filename>')
-def display_audio(filename):
-    #print('display_image filename: ' + filename)
+#@app.route('/display/<filename>')
+#def display_audio(filename):
+#    #print('display_image filename: ' + filename)
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
-
+#
 if __name__ == '__main__':
     app.run()
