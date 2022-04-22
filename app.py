@@ -1,35 +1,18 @@
 #!/usr/bin/env python
-import imghdr
+# import imghdr
 from importlib import import_module
 import os
 import cv2
-import js2py
-play = """
-        var audio= document.getElementById('audio');
-        var playPauseBTN = document.getElementById('playPauseBTN');
-        var count=0;
-        function playPause(){
-            if(count == 0){
-                count = 1;
-                audio.play();
-                playPauseBTN.innerHTML = "Pause &#9208;"
-            }else{
-                count = 0;
-                audio.pause();
-                playPauseBTN.innerHTML = "Play &#9658;"
-                }
-            }
-            """
 
 from flask import Flask, render_template, Response, redirect, request
 
-from werkzeug.utils import secure_filename
+# from werkzeug.utils import secure_filename
 
 import soundfile as sf
 import sounddevice as sd
 
 import numpy as np
-from pydub import AudioSegment
+# from pydub import AudioSegment
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
@@ -101,58 +84,6 @@ def volume_max():
     setup_max = 0.0
     volume.SetMasterVolumeLevel(setup_max, None)    
 
-from py_mini_racer import py_mini_racer
-ctx = py_mini_racer.MiniRacer()
-# ctx.eval("""
-# var audio= document.getElementById('audio');
-# var playPauseBTN = document.getElementById('playPauseBTN');
-# var count=0;
-
-
-
-# function playPause(){
-# 	if(count == 0){
-# 		count = 1;
-# 		audio.play();
-#         playPauseBTN.innerHTML = "Pause &#9208;"
-#     }else{
-#         count = 0;
-# 		audio.pause();
-#         playPauseBTN.innerHTML = "Play &#9658;"
-#     }
-# }
-
-# function Stop(){
-#     playPause()
-#     audio.pause();
-#     audio.currentTime= 0;
-#     playPauseBTN.innerHTML = "Play &#9658;"
-
-# }
-
-# function Volume_20(){
-#     audio.volume = 0.2;
-# }
-# function Volume_40(){
-#     audio.volume = 0.4;
-# }
-# function Volume_60(){
-#     audio.volume = 0.6;
-# }
-
-# function Volume_80(){
-#     audio.volume = 0.8;
-# }
-
-# function Volume_max(){
-#     audio.volume = 1;
-# }
-# function Mute(){
-#     audio.volume = 0;
-# }
-
-
-# """)
 
 # import camera driver
 if os.environ.get('CAMERA'):
@@ -203,43 +134,26 @@ def upload_image():
 
 def gen(camera):
     """Video streaming generator function."""
-    ctr = 0
+    # ctr = 0
+    switch = 0
     while True:
-        frame, func = camera.get_frame()
-        object = func
-        print(object)
-        ctr += 1
-        if object == "Play" and ctr > 100:
-        #     js2py.eval_js("""var audio= document.getElementById('audio');
-        # var playPauseBTN = document.getElementById('playPauseBTN');
-        # var count=0;
-        # function playPause(){
-        #     if(count == 0){
-        #         count = 1;
-        #         audio.play();
-        #         playPauseBTN.innerHTML = "Pause &#9208;"
-        #     }else{
-        #         count = 0;
-        #         audio.pause();
-        #         playPauseBTN.innerHTML = "Play &#9658;"
-        #         }
-        #     }
-        #     playPause()""")
-            # ctx.call("playPause()")
-            play(audio_file)
-            print("playyyy")
-            ctr = 0 
-        elif object == "Stop":
+        frame, cls = camera.get_frame()
+        if cls == "Play" and switch == 0:
+            switch = 1
+            play(audio_file) 
+            # ctr = 0 
+        elif cls == "Stop":
+            switch = 0
             stop()
-        elif object == "Mute":
+        elif cls == "Mute":
             Mute()  
-        elif object == "Volume-20":
+        elif cls == "Volume-20":
             volume_20()  
-        elif object == "Volume-40":
+        elif cls == "Volume-40":
             volume_40()  
-        elif object == "Volume-60":
+        elif cls == "Volume-60":
             volume_60()  
-        elif object == "Volume-80":
+        elif cls == "Volume-80":
             volume_80()              
         else:
             volume_max()    

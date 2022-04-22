@@ -47,83 +47,83 @@ from utils.general import (LOGGER, check_file, check_img_size, check_imshow, che
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, time_sync
 
-import soundfile as sf
-import sounddevice as sd
+# import soundfile as sf
+# import sounddevice as sd
 
-import numpy as np
-from pydub import AudioSegment
-from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+# import numpy as np
+# from pydub import AudioSegment
+# from ctypes import cast, POINTER
+# from comtypes import CLSCTX_ALL
+# from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 import math
 
 import time
   
 # define the countdown func.
-def countdown(t):
+# def countdown(t):
     
-    while t:
-        mins, secs = divmod(t, 60)
-        timer = '{:02d}:{:02d}'.format(mins, secs)
-        print(timer, end="\r")
-        time.sleep(1)
-        t -= 1
+#     while t:
+#         mins, secs = divmod(t, 60)
+#         timer = '{:02d}:{:02d}'.format(mins, secs)
+#         print(timer, end="\r")
+#         time.sleep(1)
+#         t -= 1
 
-def Mute():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    setup_mute =-65.25
-    volume.SetMasterVolumeLevel(setup_mute, None)
-
-
-def play(audio_file):
-    sd.play(audio_file)
-
-def stop():
-    sd.stop()
-
-def volume_20():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    setup_20 = -23.654823303222656
-    volume.SetMasterVolumeLevel(setup_20, None)    
-
-def volume_40():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    setup_40 = -13.61940860748291
-    volume.SetMasterVolumeLevel(setup_40, None)
-
-def volume_60():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    setup_60 = -7.626824855804443
-    volume.SetMasterVolumeLevel(setup_60, None)
-
-def volume_80():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    setup_80 = -3.339998245239258
-    volume.SetMasterVolumeLevel(setup_80, None)
+# def Mute():
+#     devices = AudioUtilities.GetSpeakers()
+#     interface = devices.Activate(
+#         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+#     volume = cast(interface, POINTER(IAudioEndpointVolume))
+#     setup_mute =-65.25
+#     volume.SetMasterVolumeLevel(setup_mute, None)
 
 
-def volume_max():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    setup_max = 0.0
-    volume.SetMasterVolumeLevel(setup_max, None)
+# def play(audio_file):
+#     sd.play(audio_file)
+
+# def stop():
+#     sd.stop()
+
+# def volume_20():
+#     devices = AudioUtilities.GetSpeakers()
+#     interface = devices.Activate(
+#         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+#     volume = cast(interface, POINTER(IAudioEndpointVolume))
+#     setup_20 = -23.654823303222656
+#     volume.SetMasterVolumeLevel(setup_20, None)    
+
+# def volume_40():
+#     devices = AudioUtilities.GetSpeakers()
+#     interface = devices.Activate(
+#         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+#     volume = cast(interface, POINTER(IAudioEndpointVolume))
+#     setup_40 = -13.61940860748291
+#     volume.SetMasterVolumeLevel(setup_40, None)
+
+# def volume_60():
+#     devices = AudioUtilities.GetSpeakers()
+#     interface = devices.Activate(
+#         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+#     volume = cast(interface, POINTER(IAudioEndpointVolume))
+#     setup_60 = -7.626824855804443
+#     volume.SetMasterVolumeLevel(setup_60, None)
+
+# def volume_80():
+#     devices = AudioUtilities.GetSpeakers()
+#     interface = devices.Activate(
+#         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+#     volume = cast(interface, POINTER(IAudioEndpointVolume))
+#     setup_80 = -3.339998245239258
+#     volume.SetMasterVolumeLevel(setup_80, None)
+
+
+# def volume_max():
+#     devices = AudioUtilities.GetSpeakers()
+#     interface = devices.Activate(
+#         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+#     volume = cast(interface, POINTER(IAudioEndpointVolume))
+#     setup_max = 0.0
+#     volume.SetMasterVolumeLevel(setup_max, None)
 
 
 
@@ -157,13 +157,13 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         dnn=False,  # use OpenCV DNN for ONNX inference
         ):
 
-    # Get default audio device using PyCAW
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    # Get current volume 
-    currentVolumeDb = volume.GetMasterVolumeLevel()
+    # # Get default audio device using PyCAW
+    # devices = AudioUtilities.GetSpeakers()
+    # interface = devices.Activate(
+    # IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+    # volume = cast(interface, POINTER(IAudioEndpointVolume))
+    # # Get current volume 
+    # currentVolumeDb = volume.GetMasterVolumeLevel()
     
     filename = 'audio'
     path = 'static/uploads/' + filename + '.wav' # path from my computer 
@@ -260,29 +260,29 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                         objects = ['Mute', 'Play', 'Stop', 'Volume-20', 'Volume-40', 'Volume-60', 'Volume-80', 'Volume-Max']
                         object = objects[int(cls.item())]
 
-                        print(ctr)
+                        # print(ctr)
 
-                        # if ctr%100 == 0: 
-                        #     volume_40()
-                            # ctr = 0  
-                        if object == "Play" and ctr > 100:
-                            play(audio_file)
-                            ctr = 0  
-                            # countdown(3)
-                        elif object == "Stop":
-                            stop()
-                        elif object == "Mute":
-                            Mute()  
-                        elif object == "Volume-20":
-                            volume_20()  
-                        elif object == "Volume-40":
-                            volume_40()  
-                        elif object == "Volume-60":
-                            volume_60()  
-                        elif object == "Volume-80":
-                            volume_80()              
-                        else:
-                            volume_max()
+                        # # if ctr%100 == 0: 
+                        # #     volume_40()
+                        #     # ctr = 0  
+                        # if object == "Play" and ctr > 100:
+                        #     play(audio_file)
+                        #     ctr = 0  
+                        #     # countdown(3)
+                        # elif object == "Stop":
+                        #     stop()
+                        # elif object == "Mute":
+                        #     Mute()  
+                        # elif object == "Volume-20":
+                        #     volume_20()  
+                        # elif object == "Volume-40":
+                        #     volume_40()  
+                        # elif object == "Volume-60":
+                        #     volume_60()  
+                        # elif object == "Volume-80":
+                        #     volume_80()              
+                        # else:
+                        #     volume_max()
 
                         with open(txt_path + '.txt', 'a') as f:
                             f.write(('%g ' * len(line)).rstrip() % line + '\n')
